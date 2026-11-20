@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
+<link rel="icon" href="crest.svg" type="image/svg+xml">
 <title>Friend de Coup Hospitality</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
 <style>
@@ -127,6 +128,9 @@ dialog h2{font-size:20px}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-size:14px;max-width:calc(100vw - 32px);z-index:20}
 @media (max-width:520px){.season{grid-template-columns:repeat(3,1fr);row-gap:12px}}
 
+.brand{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
+.crest{flex:none;width:72px;height:72px;filter:drop-shadow(0 0 18px rgba(139,79,214,.45))}
+.brand .eyebrow{margin-bottom:10px}
 /* foundation look */
 html{background:var(--bg)}
 body{min-height:100vh;background:radial-gradient(900px 520px at 8% -8%,rgba(139,79,214,.30),transparent 62%),radial-gradient(760px 460px at 100% 4%,rgba(52,198,232,.14),transparent 62%),var(--bg);background-repeat:no-repeat}
@@ -159,9 +163,12 @@ dialog{border-radius:20px;background:#140d28;box-shadow:0 24px 60px rgba(0,0,0,.
 <body>
 <header class="band">
   <div class="wrap">
-    <div>
-      <p class="eyebrow">Mitchell High School · Friend de Coup · 2026–27</p>
-      <h1>Friend de Coup <span class="gradtext">Hospitality</span></h1>
+    <div class="brand">
+      <img src="crest.svg" alt="FDC crest" class="crest" width="72" height="72">
+      <div class="grow">
+        <p class="eyebrow">Mitchell High School · Friend de Coup · 2026–27</p>
+        <h1>Friend de Coup <span class="gradtext">Hospitality</span></h1>
+      </div>
     </div>
     <div class="status-row">
       <p class="status" id="status"><i></i><span>Loading the shared plan…</span></p>
