@@ -5,33 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Friend de Coup Hospitality</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
 <style>
-/* Layout: a backstage call sheet. Black-and-gold marquee band on top, then one
-   960px column where every row leads with its date or status in a fixed gutter. */
+/* Layout: a backstage call sheet in the FDC Foundation's stage-light look. Deep purple-black
+   ground with purple and cyan glows, then one 960px column where every row leads with its
+   date or status in a fixed gutter. Single dark theme by choice, to match the foundation site. */
 :root{
-  --bg:#F5F4EF; --surface:#FFFFFF; --ink:#17150F; --muted:#625D50; --line:#DCD8CA;
-  --band:#17150F; --band-ink:#F4F1E6; --band-muted:#B5AE9A;
-  --gold:#F2C230; --gold-text:#7F5D00; --on-gold:#17150F; --gold-wash:#FBF1CC;
-  --ok:#256B43; --ok-wash:#DDEFE3; --warn:#A4480F; --warn-wash:#FBE6D8;
-  --display:"Archivo","Arial Narrow",Arial,sans-serif;
-  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#11100C; --surface:#1B1913; --ink:#F1EEE4; --muted:#A39D8B; --line:#353126;
-    --band:#000000; --band-ink:#F4F1E6; --band-muted:#A39D8B;
-    --gold:#F2C230; --gold-text:#F2C230; --on-gold:#17150F; --gold-wash:#3A3010;
-    --ok:#7CCB98; --ok-wash:#173324; --warn:#F2A070; --warn-wash:#40220F;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#11100C; --surface:#1B1913; --ink:#F1EEE4; --muted:#A39D8B; --line:#353126;
-  --band:#000000; --band-ink:#F4F1E6; --band-muted:#A39D8B;
-  --gold:#F2C230; --gold-text:#F2C230; --on-gold:#17150F; --gold-wash:#3A3010;
-  --ok:#7CCB98; --ok-wash:#173324; --warn:#F2A070; --warn-wash:#40220F;
   color-scheme:dark;
+  --bg:#0a0713; --surface:#130d24; --ink:#eee9f7; --muted:#a99fc6; --line:rgba(255,255,255,.12);
+  --band:transparent; --band-ink:#eee9f7; --band-muted:#a99fc6;
+  --gold:#e6b84e; --gold-text:#34c6e8; --on-gold:#ffffff; --gold-wash:rgba(139,79,214,.24);
+  --ok:#6fdca6; --ok-wash:rgba(111,220,166,.14); --warn:#ff9d7a; --warn-wash:rgba(255,157,122,.14);
+  --purple:#8b4fd6; --cyan:#34c6e8;
+  --grad:linear-gradient(100deg,#8b4fd6 0%,#c94fbe 45%,#34c6e8 100%);
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -138,14 +126,42 @@ dialog h2{font-size:20px}
 .form-acts .spacer{flex:1}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-size:14px;max-width:calc(100vw - 32px);z-index:20}
 @media (max-width:520px){.season{grid-template-columns:repeat(3,1fr);row-gap:12px}}
+
+/* foundation look */
+html{background:var(--bg)}
+body{min-height:100vh;background:radial-gradient(900px 520px at 8% -8%,rgba(139,79,214,.30),transparent 62%),radial-gradient(760px 460px at 100% 4%,rgba(52,198,232,.14),transparent 62%),var(--bg);background-repeat:no-repeat}
+.band{border-bottom:1px solid var(--line)}
+.band .wrap{padding-block:28px 0;gap:18px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.05);color:var(--ink);font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;margin-bottom:14px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan)}
+.band h1{color:var(--ink);font-weight:700;font-size:clamp(30px,6vw,50px);letter-spacing:-.02em}
+.gradtext{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--cyan)}
+.sec-head h2{font-size:24px;letter-spacing:-.01em}
+.sheet{border-radius:16px;background:rgba(255,255,255,.045)}
+.empty{border-radius:16px}
+.track{border-radius:8px;background:rgba(255,255,255,.045)}
+.btn{border-radius:999px;padding:8px 16px;background:rgba(255,255,255,.05)}
+.btn:hover{border-color:rgba(255,255,255,.3)}
+.btn.primary{background:var(--grad);border-color:transparent;color:var(--on-gold);box-shadow:0 0 24px rgba(139,79,214,.35)}
+.btn.primary:hover{filter:brightness(1.1);border-color:transparent}
+.btn.quiet{background:transparent}
+.btn.onband{border-color:rgba(255,255,255,.18)}
+.chip[aria-pressed="true"]{background:var(--grad);color:var(--on-gold);border-color:transparent}
+.pill{color:var(--ink)}
+.pill.plain{color:var(--muted)}
+.date b{color:var(--ink)}
+dialog{border-radius:20px;background:#140d28;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.field input,.field select,.field textarea{border-radius:12px}
+#toast{border-radius:999px}
 </style>
 </head>
 <body>
 <header class="band">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Mitchell show choir · 2026–27 season</p>
-      <h1>Friend de Coup Hospitality</h1>
+      <p class="eyebrow">Mitchell High School · Friend de Coup · 2026–27</p>
+      <h1>Friend de Coup <span class="gradtext">Hospitality</span></h1>
     </div>
     <div class="status-row">
       <p class="status" id="status"><i></i><span>Loading the shared plan…</span></p>
