@@ -200,7 +200,7 @@ var db={doc:function(p){var s=p.split('/');return docRef(s[0],s[1]);},
 var F={
   events:{noun:'event',fields:[
     ['title','What','text',{req:1,ph:'Competition, committee meeting…'}],
-    ['type','Type','select',{opts:['Competition','Home competition','Committee meeting','Rehearsal or camp','Other']}],
+    ['type','Type','select',{opts:['Competition','Performance','Committee meeting','Rehearsal or camp','Other']}],
     ['date','Date','date',{req:1}],
     ['time','Time','text',{ph:'6:30 pm, or 7 am – 10 pm'}],
     ['place','Where','text'],
@@ -397,7 +397,7 @@ function vSchedule(){
   return [h('section',{'class':'sec'},
     h('div',{'class':'sec-head'},h('h2',null,'Schedule'),
       h('div',{'class':'acts'},addBtn('events','Add a meeting',{type:'Committee meeting',title:'Committee meeting'}),addBtn('events','Add an event',{type:'Competition'}))),
-    h('p',{'class':'lede'},'Competitions, the home competition, committee meetings and anything else hospitality needs to show up for.'),
+    h('p',{'class':'lede'},'Competitions, performances, committee meetings and anything else hospitality needs to show up for.'),
     order.length?order.map(function(k){return h('div',{'class':'sec'},
         h('h3',{'class':'month'},pd(k+'-01').toLocaleDateString('en-US',{month:'long',year:'numeric'})),
         h('ul',{'class':'sheet'},groups[k].map(eventRow)));})
