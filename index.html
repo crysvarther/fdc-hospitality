@@ -477,7 +477,7 @@ function openForm(col,rec,defaults){
   var spec=F[col], init=rec||defaults||{}, armed=false;
   form.replaceChildren(
     h('h2',null,(rec?'Edit ':'Add ')+spec.noun),
-    spec.fields.map(function(f){return control(f,init[f[0]]);}),
+    h('div',{style:'display:flex;flex-direction:column;gap:14px'},spec.fields.map(function(f){return control(f,init[f[0]]);})),
     h('div',{'class':'form-acts'},
       rec?h('button',{type:'button','class':'btn quiet danger',onclick:function(ev){
         if(!armed){armed=true;ev.target.textContent='Tap again to delete';return;}
