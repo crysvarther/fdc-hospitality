@@ -131,6 +131,9 @@ dialog h2{font-size:20px}
 .brand{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
 .crest{flex:none;width:72px;height:72px;filter:drop-shadow(0 0 18px rgba(139,79,214,.45))}
 .brand .eyebrow{margin-bottom:10px}
+.signups{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+button.pill.who{border:1px solid var(--line);font:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:normal;text-align:left}
+button.pill.who:hover{border-color:rgba(255,255,255,.3)}
 /* foundation look */
 html{background:var(--bg)}
 body{min-height:100vh;background:radial-gradient(900px 520px at 8% -8%,rgba(139,79,214,.30),transparent 62%),radial-gradient(760px 460px at 100% 4%,rgba(52,198,232,.14),transparent 62%),var(--bg);background-repeat:no-repeat}
@@ -197,9 +200,9 @@ dialog{border-radius:20px;background:#140d28;box-shadow:0 24px 60px rgba(0,0,0,.
 'use strict';
 var SEASON={start:'2026-11-17',end:'2027-04-30'};
 var GROUPS=['Show choir kids','Judges','Directors & bus drivers','Volunteers'];
-var COLS=['events','meals','items','tasks','people','notes'];
+var COLS=['events','meals','items','tasks','people','notes','signups'];
 var VIEWS=['overview','schedule','meals','bring','tasks','committee'];
-var S={events:[],meals:[],items:[],tasks:[],people:[],notes:[]};
+var S={events:[],meals:[],items:[],tasks:[],people:[],notes:[],signups:[]};
 var bringFilter='open', mealGroup='All';
 var API='https://lojkgqlrenezxxjguvin.supabase.co/rest/v1/rpc/', KEY='sb_publishable_pWF0LUmDBOmRQ0NEdTSMKg_v9WYbT9g';
 var pass='', unlocked=false, lastSig='';
@@ -257,6 +260,10 @@ var F={
     ['phone','Phone','text'],
     ['email','Email','text'],
     ['notes','Notes','text']]},
+  signups:{noun:'sign-up',fields:[
+    ['name','Your name','text',{req:1,ph:'First and last name'}],
+    ['eventId','Event','ref',{col:'events'}],
+    ['note','Note (optional)','text',{ph:'Arriving at 5, can bring a roaster…'}]]},
   notes:{noun:'announcement',fields:[
     ['text','Announcement','area',{req:1}],
     ['by','From','text']]}
@@ -327,9 +334,24 @@ function eventRow(e){
       h('div',{'class':'row-title'},e.title),
       h('div',{'class':'meta'},join([e.time,e.place])),
       e.notes?h('div',{'class':'meta'},e.notes):null,
-      meals.length?h('div',{'class':'meta'},meals.length+(meals.length===1?' meal':' meals')+' planned'+(need?' · '+need+' still needed':'')):null),
+      meals.length?h('div',{'class':'meta'},meals.length+(meals.length===1?' meal':' meals')+' planned'+(need?' · '+need+' still needed':'')):null,
+      signupList(e)),
     e.type?h('span',{'class':'pill '+(/meeting/i.test(e.type)?'plain':'')},e.type):null,
-    editBtn('events',e));
+    h('div',{'class':'acts'},
+      e.date>=TODAY?btn('Sign up',function(){
+        if(!unlocked){toast('Unlock editing with the committee passcode to sign up.');lockToggle();return;}
+        openForm('signups',null,{eventId:e.id,name:myName()});},'primary'):null,
+      editBtn('events',e)));
+}
+function signupList(e){
+  if(!unlocked) return null;
+  var who=S.signups.filter(function(s){return s.eventId===e.id;});
+  if(!who.length) return e.date>=TODAY?h('div',{'class':'meta'},'No one signed up yet'):null;
+  return h('div',{'class':'signups'},
+    h('span',{'class':'meta'},'Signed up ('+who.length+'):'),
+    who.map(function(s){
+      return h('button',{type:'button','class':'pill who',title:s.note||'Change or remove this sign-up',
+        onclick:function(){openForm('signups',s);}},s.name,s.note?h('span',{'class':'muted'},' · '+s.note):null);}));
 }
 function itemRow(it,showMeal){
   var st=it.status||'Needed', m=byId('meals',it.mealId);
@@ -519,6 +541,7 @@ function openForm(col,rec,defaults){
     if(col==='items'){ if(data.who&&data.status==='Needed') data.status='Claimed'; }
     if(col==='notes'){ if(!data.at) data.at=new Date().toISOString(); if(data.by) myName(data.by); }
     if(col==='tasks'&&!rec) data.done=false;
+    if(col==='signups'){ if(!data.eventId){toast('Pick the event you are signing up for.');return;} myName(data.name); }
     dlg.close();
     write(function(){var c=db.collection(col);return (rec?c.doc(rec.id):c.doc()).set(data);});
   };
@@ -559,7 +582,8 @@ function refresh(){
   });
 }
 function poll(){refresh().catch(function(){setStatus('bad','Can’t reach the shared plan right now. What you see may be out of date.');});}
-document.getElementById('lock-btn').addEventListener('click',function(){
+document.getElementById('lock-btn').addEventListener('click',lockToggle);
+function lockToggle(){
   if(unlocked){setUnlocked(false);lastSig='';poll();toast('Editing locked on this device.');return;}
   form.replaceChildren(
     h('h2',null,'Unlock editing'),
@@ -575,7 +599,7 @@ document.getElementById('lock-btn').addEventListener('click',function(){
     },function(){pass='';toast('Could not check the passcode. Try again.');});
   };
   dlg.showModal();
-});
+}
 poll();
 setInterval(function(){if(!document.hidden) poll();},20000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden) poll();});
