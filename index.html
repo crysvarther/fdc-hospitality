@@ -226,7 +226,7 @@ var db={doc:function(p){var s=p.split('/');return docRef(s[0],s[1]);},
 var F={
   events:{noun:'event',fields:[
     ['title','What','text',{req:1,ph:'Competition, committee meeting…'}],
-    ['type','Type','select',{opts:['Competition','Performance','Fundraiser','Committee meeting','Rehearsal or camp','Other']}],
+    ['type','Type','select',{opts:['Competition','Performance','Fundraiser','Volunteer shift','Committee meeting','Rehearsal or camp','Other']}],
     ['date','Date','date',{req:1}],
     ['time','Time','text',{ph:'6:30 pm, or 7 am – 10 pm'}],
     ['place','Where','text'],
