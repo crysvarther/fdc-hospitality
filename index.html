@@ -344,14 +344,14 @@ function eventRow(e){
       editBtn('events',e)));
 }
 function signupList(e){
-  if(!unlocked) return null;
   var who=S.signups.filter(function(s){return s.eventId===e.id;});
   if(!who.length) return e.date>=TODAY?h('div',{'class':'meta'},'No one signed up yet'):null;
   return h('div',{'class':'signups'},
     h('span',{'class':'meta'},'Signed up ('+who.length+'):'),
     who.map(function(s){
-      return h('button',{type:'button','class':'pill who',title:s.note||'Change or remove this sign-up',
-        onclick:function(){openForm('signups',s);}},s.name,s.note?h('span',{'class':'muted'},' · '+s.note):null);}));
+      var kids=[s.name,s.note?h('span',{'class':'muted'},' · '+s.note):null];
+      return unlocked?h('button',{type:'button','class':'pill who',title:'Change or remove this sign-up',
+        onclick:function(){openForm('signups',s);}},kids):h('span',{'class':'pill plain'},kids);}));
 }
 function itemRow(it,showMeal){
   var st=it.status||'Needed', m=byId('meals',it.mealId);
